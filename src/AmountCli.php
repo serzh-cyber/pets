@@ -23,6 +23,7 @@ class AmountCli implements IAmount
             "kitty_count:",
         ];
         $options    = getopt("", $longopts);
+
         if (!isset($options['puppy_count'])) {
             $options['puppy_count'] = 0;
         }

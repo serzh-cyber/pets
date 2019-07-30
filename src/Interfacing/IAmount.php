@@ -12,8 +12,7 @@ namespace App\Interfacing;
 interface IAmount
 {
     /**
-     * Получить входные данные
-     *
+     * Получить входные данные     *
      * @return array
      */
     public function getAmount(): array;

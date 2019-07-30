@@ -14,29 +14,25 @@ use App\Feed;
 interface IAnimal
 {
     /**
-     * Голос
-     *
+     * Голос     *
      * void голос животного
      */
     public function speak(): bool;
 
     /**
-     * Команда ползти
-     *
+     * Команда ползти     *
      * void состояние на ползет
      */
     public function crawl(): bool;
 
     /**
-     * Покормить питомца
-     *
+     * Покормить питомца     *
      * @param Feed $feed
      */
     public function eat(Feed $feed): void;
 
     /**
-     * Команда туалет
-     *
+     * Команда туалет     *
      * @param Box $box
      */
     public function toilet(Box $box = null): void;

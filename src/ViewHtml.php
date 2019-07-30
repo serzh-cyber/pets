@@ -13,8 +13,7 @@ use App\Interfacing\View;
 class ViewHtml implements View
 {
     /**
-     * Вывод в браузер
-     *
+     * Вывод в браузер     *
      * @param $arr
      */
     public function viewer(array $arr)

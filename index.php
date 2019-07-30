@@ -7,5 +7,3 @@ $html   = new \App\ViewHtml();
 $amount = new \App\AmountHtml();
 
 $app->run($html, $amount);
-
-//asdasddasdasd

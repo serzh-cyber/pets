@@ -12,8 +12,7 @@ namespace App\Interfacing;
 interface View
 {
     /**
-     *Логика вывода
-     *
+     *Логика вывода     *
      * @param array $arr
      * @return mixed
      */

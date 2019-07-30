@@ -13,8 +13,7 @@ use App\Interfacing\View;
 class ViewCli implements View
 {
     /**
-     * Вывод в cli
-     *
+     * Вывод в cli     *
      * @param $arr
      */
     public function viewer(array $arr)

@@ -54,7 +54,6 @@ class Application
             }
         }
 
-        #$box->getPetOutOfBox($animals[3]);
         $countBoxDog            = 0;
         $countBoxCat            = 0;
         $countDog               = 0;
