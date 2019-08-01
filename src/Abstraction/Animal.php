@@ -50,15 +50,15 @@ abstract class Animal implements IAnimal
     protected $satietyMax = 0;
 
     /**
-     * @var string Площадь которую занимает это животное
+     * @var int Площадь которую занимает это животное
      */
-    protected $square = '';
+    protected $square = 0;
 
     /**
      * Статус в коробке - 1, не в коробке - 0
      * @var int
      */
-    protected $inBox = 0;
+    protected $isInBox = false;
 
     /**
      * Animal constructor.
@@ -117,13 +117,13 @@ abstract class Animal implements IAnimal
 
     /**
      * Команда туалет     *
-     * @param Box $box коробка в которую пойдут в туалет
+     * @param Placement $place коробка в которую пойдут в туалет
      */
-    public function toilet(Box $box = null): void
+    public function toilet(Placement $place = null): void
     {
         if ($this->satiety+20 >= $this->satietyMax) {
-            if ($this->inBox == 1) {
-                $this->toiletInBox($box);
+            if ($this->isInBox == 1) {
+                $this->toiletInBox($place);
             } else {
                 $this->toiletOutside();
             }
@@ -159,25 +159,17 @@ abstract class Animal implements IAnimal
     /**
      * @return int
      */
-    public function getInBox(): int
+    public function getIsInBox(): int
     {
-        return $this->inBox;
+        return $this->isInBox;
     }
 
     /**
-     * @param int $inBox
+     * @param bool $isInBox
      */
-    public function setInBox(int $inBox): void
+    public function setIsInBox(bool $isInBox): void
     {
-        $this->inBox = $inBox;
-    }
-
-    /**
-     * @param int $inBox
-     */
-    public function setOutBox(int $inBox): void
-    {
-        $this->inBox = $inBox;
+        $this->isInBox = $isInBox;
     }
 
     /**

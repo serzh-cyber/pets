@@ -17,7 +17,7 @@ class Cat extends Animal
      */
     public function speak(): bool
     {
-        return 'Абырвалг' . "\n";
+        return true;
     }
 
     /**
@@ -25,6 +25,6 @@ class Cat extends Animal
      */
     public function crawl(): bool
     {
-        return 'Не БУДУ, Не БУДУ' . "\n";
+        return true;
     }
 }

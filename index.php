@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 
 $app    = new \App\Application();
 $html   = new \App\ViewHtml();
-$amount = new \App\AmountHtml();
+$parameters = new \App\ParamParserHtml();
 
-$app->run($html, $amount);
+$app->run($html, $parameters);
+

@@ -4,6 +4,6 @@ require 'vendor/autoload.php';
 
 $app    = new \App\Application();
 $cli    = new \App\ViewCli();
-$amount = new \App\AmountCli();
+$parameters = new \App\ParamParserCli();
 
-$app->run($cli, $amount);
+$app->run($cli, $parameters);

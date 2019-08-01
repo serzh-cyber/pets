@@ -10,6 +10,9 @@ namespace App;
 
 class Crap
 {
+    /**
+     * @var int Количество экскрементов в коробке
+     */
     protected $crapInBox = 0;
 
     /**

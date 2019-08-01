@@ -9,101 +9,131 @@
 namespace App;
 
 use App\Abstraction\Animal;
+use App\Abstraction\Placement;
 use App\Animal\Cat;
 use App\Animal\Dog;
 
-class Box
+class Box extends Placement
 {
-    /**
-     * Площадь коробки
-     */
-    const SQUARE        = 10000;
-
     /**
      * Максимально положенное количество экскрементов в коробке
      */
-    const CRAP_LIMIT    = 300;
+    const CRAP_LIMIT            = 300;
 
     /**
      * @var string цвет коробки
      */
-    protected $color    = '';
+    protected $color            = '';
 
     /**
-     * @var array массив содержащий в себе объекты животных, находящихся в коробке
+     * @var array массив содержащий в себе объекты животных внутри коробки
      */
-    public $petInBox    = [];
+    protected $allPets     = [];
 
     /**
      * @var int текущая площадь занятости коробки
      */
-    public $currentSpace = 0;
+    public $currentSpace        = 0;
 
     /**
      * @var Crap|null объект класса Crap
      */
-    protected $boxCrap  = null;
+    protected $boxCrap          = null;
+
+    /**
+     * @var int площадь коробки
+     */
+    protected $square           = 0;
 
     /**
      * Box constructor.
+     * @param $square
      * @param $color
      */
-    public function __construct($color)
+    public function __construct($square, $color)
     {
+        $this->square   = $square;
         $this->color    = $color;
         $this->boxCrap  = new Crap();
     }
 
     /**
-     * Добавление животного в коробку
-     * @param $animals
-     * @param $petAmount
+     * Проверяет есть ли свободное место, если есть добавляет в массив объект $animal
+     * @param Animal $pet
+     * @return bool
+     */
+    public function addPet(Animal $pet): bool
+    {
+        if  ($pet->getSquare()+$this->currentSpace < $this->square) {
+            $this->allPets[]   = $pet;
+            $this->currentSpace     = $this->currentSpace + $pet->getSquare();
+            $pet->setIsInBox(true);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @return array
      */
-    public function getPetInBox($animals, $petAmount): array
+    public function countPets(): array
     {
-        $countDog = 0;
-        $countCat = 0;
-        $result = [
-            'puppy' => false,
-            'kitty' => false,
-        ];
+        $petsCounts['puppiesAmount']   = 0;
+        $petsCounts['kittiesAmount']    = 0;
 
-        foreach ($animals as $animal) {
-            if ($countDog !== (int)$petAmount['puppy_count'] && is_a($animal,Dog::class) && $this->getInBox($animal)) {
-                $countDog++;
-            }
-            if ($countCat !== (int)$petAmount['kitty_count'] && is_a($animal,Cat::class) && $this->getInBox($animal)) {
-                $countCat++;
+        foreach ($this->allPets as $pet) {
+            if (is_a($pet, Dog::class)) {
+                $petsCounts['puppiesAmount']++;
+            } elseif (is_a($pet, Cat::class)) {
+                $petsCounts['kittiesAmount']++;
             }
         }
 
-        if ($countDog === (int)$petAmount['puppy_count']) {
-            $result['puppy'] = true;
-        }
-        if ($countCat === (int)$petAmount['kitty_count']) {
-            $result['kitty'] = true;
-        }
-
-        $result['count'] = [
-            'puppy' => $countDog,
-            'kitty' => $countCat,
-        ];
-        return $result;
+        return $petsCounts;
     }
+
+    /**
+     * Проверка вместимости дополнительных животных в коробку
+     * @return array
+     */
+    public function isSpaceFree(): array
+    {
+        if ($this->square - $this->currentSpace > 850) {
+            $additional['additionalKitties']        = floor(($this->square - $this->currentSpace)/850);
+
+            if ($this->square - $this->currentSpace > 1200) {
+                $additional['additionalPuppies']    = floor(($this->square - $this->currentSpace)/1200);
+            }
+
+            return $additional;
+        } else {
+            return $additional = [
+                'additionalKitties' => 0,
+                'additionalPuppies' => 0
+            ];
+        }
+    }
+
 
     /**
      * Вытаскивает животного из коробки
      * @param Animal $animal
+     * @param Placement $outBox
      * @return bool
      */
-    public function getPetOutOfBox(Animal $animal): bool
+    public function inBoxToOutBox(Animal $animal, Placement $outBox): bool
     {
-        foreach ($this->petInBox as $key => $pet) {
+        foreach ($this->allPets as $key => $pet) {
             if ($pet == $animal) {
-                unset($this->petInBox[$key]);
-                $animal->setOutBox(0);
+                unset($this->allPets[$key]);
+
+                $outBox->allPets[] = $pet;
+
+                $animal->setIsInBox(false);
                 $this->freeSpace($animal);
+
                 return true;
             }
         }
@@ -112,29 +142,51 @@ class Box
     }
 
     /**
-     * Проверяет есть ли свободное место, если есть добавляет в массив объект $animal собаку
+     * Освобождает площадь
      * @param Animal $animal
-     * @return bool
      */
-    public function getInBox(Animal $animal): bool
+    protected function freeSpace(Animal $animal): void
     {
-        if  ($animal->getSquare()+$this->currentSpace < self::SQUARE) {
-            $this->petInBox[]   = $animal;
-            $this->currentSpace = $this->currentSpace + $animal->getSquare();
-            $animal->setInbox(1);
-            return true;
-        } else {
-            return false;
+        $this->currentSpace = $this->currentSpace-$animal->getSquare();
+    }
+
+    /**
+     * Покормить всех животных
+     * @param $feed
+     */
+    public function feedPets($feed): void
+    {
+        foreach ($this->allPets as $pet) {
+                $pet->eat($feed);
         }
     }
 
     /**
-     * Освобождает площадь
-     * @param Animal $animal
+     * Подсчет голодных и сытых животных
+     * @return array
      */
-    public function freeSpace(Animal $animal): void
+    public function countHungry(): array
     {
-        $this->currentSpace = $this->currentSpace-$animal->getSquare();
+        $petsCounts['countHungry'] = 0;
+        $petsCounts['countFed'] = 0;
+        foreach ($this->allPets as $pet) {
+            if ($pet->isHungry()) {
+                $petsCounts['countHungry']++;
+            } else {
+                $petsCounts['countFed']++;
+            }
+        }
+        return $petsCounts;
+    }
+
+    /**
+     * Туалет для животных в коробке
+     */
+    public function toiletPets(): void
+    {
+        foreach (array_merge($this->allPets, $this->allPets) as $pet) {
+            $pet->toilet($this);
+        }
     }
 
     /**
@@ -144,22 +196,18 @@ class Box
     public function clearRequired(): bool
     {
         if ($this->boxCrap->getCrapInBox() >= self::CRAP_LIMIT) {
-            return true;// 'Экскрементов становиться слишком много, заполнилось на ' . $this->boxCrap->getCrapInBox() . ' из ' . self::CRAP_LIMIT . ' - в коробке нуждается в очищении.' . "\n";
-            //$this->clearCrap();
+            return true;
         } else {
-            return false;// 'Коробка на данный момент в очищении не нуждается. заполнилось на ' . $this->boxCrap->getCrapInBox() . ' из ' . self::CRAP_LIMIT . ".\n";
+            return false;
         }
     }
 
     /**
      * Очищение коробки от экскрементов
-     * @return bool
      */
-    public function clearCrap(): bool
+    public function clearCrap():void
     {
         $this->boxCrap->setCrap(0);
-
-        return true;
     }
 
     /**
@@ -168,5 +216,21 @@ class Box
     public function getBoxCrap(): object
     {
         return $this->boxCrap;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSquare(): int
+    {
+        return $this->square;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllPets(): array
+    {
+        return $this->allPets;
     }
 }
