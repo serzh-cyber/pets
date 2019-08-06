@@ -23,7 +23,7 @@ class ViewHtml implements IView
         echo nl2br($boxPresenter->showAmountPets());
         echo nl2br($boxPresenter->showAdditionalPets());
         echo nl2br($boxPresenter->showAmountHungry());
-        echo $boxPresenter->isClearRequired() ? nl2br($boxPresenter->showClearRequired()['yes']) : nl2br($boxPresenter->showClearRequired()['no']);
+        echo nl2br($boxPresenter->showClearRequired());
         echo nl2br($outBoxPresenter->showAmountPets());
         echo nl2br($outBoxPresenter->showAmountHungry());
     }

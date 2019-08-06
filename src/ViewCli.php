@@ -23,7 +23,7 @@ class ViewCli implements IView
         echo $boxPresenter->showAmountPets();
         echo $boxPresenter->showAdditionalPets();
         echo $boxPresenter->showAmountHungry();
-        echo $boxPresenter->isClearRequired() ? $boxPresenter->showClearRequired()['yes'] : $boxPresenter->showClearRequired()['no'];
+        echo $boxPresenter->showClearRequired();
         echo $outBoxPresenter->showAmountPets();
         echo $outBoxPresenter->showAmountHungry();
     }
