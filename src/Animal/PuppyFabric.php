@@ -16,22 +16,22 @@ class PuppyFabric extends PetsFactory
     /**
      * @var array имена для собак
      */
-    protected $names    = ['Соба', 'Каспер', 'Горец', 'Клод', 'Клаус', 'Шерон', 'Буба', 'Леон'];
+    protected static $names    = ['Соба', 'Каспер', 'Горец', 'Клод', 'Клаус', 'Шерон', 'Буба', 'Леон'];
 
     /**
      * @var array пол собак
      */
-    protected $gender   = ['male', 'female'];
+    protected static $gender   = ['male', 'female'];
 
     /**
      * @var array цвета шерсти собак
      */
-    protected $color    = ['Зеленный', 'Алый', 'Сапфировый', 'Оранжевый', 'Черный', 'Белый'];
+    protected static $color    = ['Зеленный', 'Алый', 'Сапфировый', 'Оранжевый', 'Черный', 'Белый'];
 
     /**
      * @var array породы собак
      */
-    protected $breed    = ['Бульдог', 'Грейхаунд', 'Ретривер', 'Бигль', 'Немецкая овчарка', 'Пудель', 'Лабрадор'];
+    protected static $breed    = ['Бульдог', 'Грейхаунд', 'Ретривер', 'Бигль', 'Немецкая овчарка', 'Пудель', 'Лабрадор'];
 
     /**
      * Создание массива из объектов щенков
@@ -41,10 +41,9 @@ class PuppyFabric extends PetsFactory
     public static function create(int $count): array
     {
         $dogs   = [];
-        $t      = new PuppyFabric();
 
         for($i=0; $i<$count; $i++) {
-            $dogs[] = new Dog($t->names[rand(0, count($t->names)-1)], rand(1, 4), $t->gender[rand(0, 1)], $t->color[rand(0, count($t->color)-1)], $t->breed[rand(0, count($t->breed)-1)], rand(50, 150), 300, rand(700, 1200));
+            $dogs[] = new Dog(self::$names[rand(0, count(self::$names)-1)], rand(1, 4), self::$gender[rand(0, 1)], self::$color[rand(0, count(self::$color)-1)], self::$breed[rand(0, count(self::$breed)-1)], rand(700, 1200));
         }
 
         return $dogs;
