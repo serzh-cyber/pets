@@ -11,23 +11,24 @@ namespace App;
 class Crap
 {
     /**
-     * @var int Количество экскрементов в коробке
+     * @var int количество экскрементов
      */
-    protected $crapInBox = 0;
+    protected $amount = 0;
+
+    /**
+     * Crap constructor.
+     * @param $amount
+     */
+    public function __construct($amount)
+    {
+        $this->amount = $amount;
+    }
 
     /**
      * @return int
      */
-    public function getCrapInBox(): int
+    public function getAmount(): int
     {
-        return $this->crapInBox;
-    }
-
-    /**
-     * @param mixed $crapInBox
-     */
-    public function setCrap($crapInBox): void
-    {
-        $this->crapInBox = $crapInBox;
+        return $this->amount;
     }
 }
