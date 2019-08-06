@@ -8,8 +8,7 @@
 
 namespace App\Interfacing;
 
-use App\Abstraction\Placement;
-use App\Feed;
+use App\Portion;
 
 interface IAnimal
 {
@@ -27,13 +26,12 @@ interface IAnimal
 
     /**
      * Покормить питомца
-     * @param Feed $feed
+     * @param Portion $portion
      */
-    public function eat(Feed $feed): void;
+    public function eat(Portion $portion): void;
 
     /**
      * Команда туалет
-     * @param Placement $place
      */
-    public function toilet(Placement $place = null): void;
+    public function toilet(): array;
 }
