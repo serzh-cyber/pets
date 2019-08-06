@@ -36,9 +36,9 @@ class Box extends Placement
     public $currentSpace        = 0;
 
     /**
-     * @var Crap|null объект класса Crap
+     * @var array экскременты животных из $allPets
      */
-    protected $boxCrap          = null;
+    protected $crapArray          = [];
 
     /**
      * @var int площадь коробки
@@ -54,7 +54,6 @@ class Box extends Placement
     {
         $this->square   = $square;
         $this->color    = $color;
-        $this->boxCrap  = new Crap();
     }
 
     /**
@@ -151,17 +150,6 @@ class Box extends Placement
     }
 
     /**
-     * Покормить всех животных
-     * @param $feed
-     */
-    public function feedPets($feed): void
-    {
-        foreach ($this->allPets as $pet) {
-                $pet->eat($feed);
-        }
-    }
-
-    /**
      * Подсчет голодных и сытых животных
      * @return array
      */
@@ -180,12 +168,12 @@ class Box extends Placement
     }
 
     /**
-     * Туалет для животных в коробке
+     * Команда туалет для объектов в allPets
      */
-    public function toiletPets(): void
+    public function doToilet()
     {
-        foreach (array_merge($this->allPets, $this->allPets) as $pet) {
-            $pet->toilet($this);
+        foreach ($this->allPets as $pet) {
+            $this->crapArray = array_merge($this->crapArray, $pet->toilet());
         }
     }
 
@@ -195,7 +183,10 @@ class Box extends Placement
      */
     public function clearRequired(): bool
     {
-        if ($this->boxCrap->getCrapInBox() >= self::CRAP_LIMIT) {
+        if (array_sum(array_map(function ($crap) {
+                return $crap->getAmount();
+            }, $this->crapArray)) >= self::CRAP_LIMIT) {
+
             return true;
         } else {
             return false;
@@ -207,15 +198,15 @@ class Box extends Placement
      */
     public function clearCrap():void
     {
-        $this->boxCrap->setCrap(0);
+        $this->crapArray = [];
     }
 
     /**
-     * @return object $this->boxCrap
+     * @return array
      */
-    public function getBoxCrap(): object
+    public function getCrapArray(): array
     {
-        return $this->boxCrap;
+        return $this->crapArray;
     }
 
     /**
