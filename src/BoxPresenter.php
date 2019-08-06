@@ -8,7 +8,6 @@
 
 namespace App;
 
-
 use App\Abstraction\Placement;
 use App\Interfacing\IPlacementPresenter;
 
@@ -17,15 +16,15 @@ class BoxPresenter implements IPlacementPresenter
     /**
      * @var null объект класса Place
      */
-    protected $place    = null;
+    protected $box    = null;
 
     /**
      * BoxPresenter constructor.
-     * @param Placement $place
+     * @param Placement $box
      */
-    public function __construct(Placement $place)
+    public function __construct(Placement $box)
     {
-        $this->place    = $place;
+        $this->box    = $box;
     }
 
     /**
@@ -34,7 +33,7 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function showAmountPets(): string
     {
-        return 'Внутри коробки ' . ($this->place->countPets()['puppiesAmount']+$this->place->countPets()['kittiesAmount']) . ' животных.' . "\n" . 'Собак: ' . $this->place->countPets()['puppiesAmount'] . ', Кошек: ' . $this->place->countPets()['kittiesAmount'] . "\n";
+        return 'Внутри коробки ' . ($this->box->countPets()['puppiesAmount']+$this->box->countPets()['kittiesAmount']) . ' животных.' . "\n" . 'Собак: ' . $this->box->countPets()['puppiesAmount'] . ', Кошек: ' . $this->box->countPets()['kittiesAmount'] . "\n";
     }
 
     /**
@@ -43,7 +42,7 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function showAmountHungry(): string
     {
-        return 'Внутри коробки голодных питомцев - ' . $this->place->countHungry()['countHungry'] . ', а сытых питомцев - ' . $this->place->countHungry()['countFed'] . "\n";
+        return 'Внутри коробки голодных питомцев - ' . $this->box->countHungry()['countHungry'] . ', а сытых питомцев - ' . $this->box->countHungry()['countFed'] . "\n";
     }
 
     /**
@@ -52,27 +51,15 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function showAdditionalPets(): string
     {
-        return 'В корбку могут поместиться: ' . $this->place->isSpaceFree()['additionalPuppies'] . ' - собаки, или ' . $this->place->isSpaceFree()['additionalKitties'] . ' - кошки.' . "\n";
-    }
-
-    /**
-     * Надо ли убраться
-     * @return bool
-     */
-    public function isClearRequired(): bool
-    {
-        return $this->place->clearRequired();
+        return 'В корбку могут поместиться: ' . $this->box->isSpaceFree()['additionalPuppies'] . ' - собаки, или ' . $this->box->isSpaceFree()['additionalKitties'] . ' - кошки.' . "\n";
     }
 
     /**
      * Показывает, что убраться нужно или нет.
-     * @return array
+     * @return string
      */
-    public function showClearRequired():array
+    public function showClearRequired():string
     {
-        return [
-            'yes' => 'В коробке пора убраться.' . "\n",
-            'no' => 'В коробке убираться не требуется.' . "\n"
-        ];
+        return $this->box->clearRequired() ? 'В коробке пора убраться.' . "\n" : 'В коробке убираться не требуется.' . "\n";
     }
 }
