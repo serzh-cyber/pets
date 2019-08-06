@@ -8,9 +8,9 @@
 
 namespace App\Abstraction;
 
+use App\Crap;
 use App\Interfacing\IAnimal;
-use App\Box;
-use App\Feed;
+use App\Portion;
 
 abstract class Animal implements IAnimal
 {
@@ -40,19 +40,14 @@ abstract class Animal implements IAnimal
     protected $breed = '';
 
     /**
-     * @var int Текущая сытость животного
-     */
-    protected $satiety = 0;
-
-    /**
-     * @var int Лимит сытости
-     */
-    protected $satietyMax = 0;
-
-    /**
      * @var int Площадь которую занимает это животное
      */
     protected $square = 0;
+
+    /**
+     * @var array желудок
+     */
+    protected $stomach = [];
 
     /**
      * Статус в коробке - 1, не в коробке - 0
@@ -67,19 +62,15 @@ abstract class Animal implements IAnimal
      * @param $gender
      * @param $color
      * @param $breed
-     * @param $satiety
-     * @param $satietyMax
      * @param $square
      */
-    public function __construct($name, $age, $gender, $color, $breed, $satiety, $satietyMax, $square)
+    public function __construct($name, $age, $gender, $color, $breed, $square)
     {
         $this->name         = $name;
         $this->age          = $age;
         $this->gender       = $gender;
         $this->color        = $color;
         $this->breed        = $breed;
-        $this->satiety      = $satiety;
-        $this->satietyMax   = $satietyMax;
         $this->square       = $square;
     }
 
@@ -94,21 +85,21 @@ abstract class Animal implements IAnimal
     abstract public function crawl(): bool;
 
     /**
-     * Покормить питомца     *
-     * @param Feed $feed Корм
+     * Покормить питомца
+     * @param Portion $portion
      */
-    public function eat(Feed $feed) :void
+    public function eat(Portion $portion): void
     {
-        $f              = rand(0, $feed->getFeed($this));
-        $this->satiety  = $this->satiety+$f;
+        $this->stomach[] = $portion;
     }
+
 
     /**
      * Проверка на сытость
      */
     public function isHungry(): bool
     {
-        if ($this->satiety+20 >= $this->satietyMax) {
+        if (count($this->stomach) > 0) {
             return false;
         } else {
             return true;
@@ -116,36 +107,18 @@ abstract class Animal implements IAnimal
     }
 
     /**
-     * Команда туалет     *
-     * @param Placement $place коробка в которую пойдут в туалет
+     * Производство экскрементов
+     * @return array
      */
-    public function toilet(Placement $place = null): void
+    public function toilet(): array
     {
-        if ($this->satiety+20 >= $this->satietyMax) {
-            if ($this->isInBox == 1) {
-                $this->toiletInBox($place);
-            } else {
-                $this->toiletOutside();
+        $petCrap = [];
+        if (!$this->isHungry()) {
+            while ($this->stomach) {
+                $petCrap[] = new Crap(array_pop($this->stomach)->getAmount());
             }
         }
-    }
-
-    /**
-     * Команда туалет в коробку     *
-     * @param Box $box коробка в которую пойдут в туалет
-     */
-    public function toiletInBox(Box $box): void
-    {
-        $this->satiety -= 50;
-        $box->getBoxCrap()->setCrap($box->getBoxCrap()->getCrapInBox()+50);
-    }
-
-    /**
-     * Команда туалет снаружи для тех кто не в коробке
-     */
-    public function toiletOutside(): void
-    {
-        $this->satiety -= 50;
+        return $petCrap;
     }
 
     /**
@@ -170,29 +143,5 @@ abstract class Animal implements IAnimal
     public function setIsInBox(bool $isInBox): void
     {
         $this->isInBox = $isInBox;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSatiety(): int
-    {
-        return $this->satiety;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSatietyMax(): int
-    {
-        return $this->satietyMax;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 }
