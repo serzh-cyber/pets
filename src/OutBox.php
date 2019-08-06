@@ -22,6 +22,11 @@ class OutBox extends Placement
     protected $allPets = [];
 
     /**
+     * @var array экскременты животных из $allPets
+     */
+    protected $crapArray = [];
+
+    /**
      * Добавляет не поместившихся в коробку животных
      * @param Animal $pet
      */
@@ -52,17 +57,6 @@ class OutBox extends Placement
     }
 
     /**
-     * Покормить животных
-     * @param $feed
-     */
-    public function feedPets($feed): void
-    {
-        foreach ($this->allPets as $pet) {
-            $pet->eat($feed);
-        }
-    }
-
-    /**
      * Подсчет голодных и сытых животных
      * @return array
      */
@@ -85,11 +79,32 @@ class OutBox extends Placement
     /**
      * Туалет для животных вне коробки
      */
-    public function toiletPets(): void
+    public function doToilet()
     {
-        foreach (array_merge($this->allPets, $this->allPets) as $pet) {
-            $pet->toilet();
+        foreach ($this->allPets as $pet) {
+            $this->crapArray = array_merge($this->crapArray, $pet->toilet());
         }
+    }
+
+    /**
+     * Проверка на необходимость уборки
+     * @return bool
+     */
+    public function clearRequired(): bool
+    {
+        if (count($this->crapArray) == count($this->allPets)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Очищение коробки от экскрементов
+     */
+    public function clearCrap():void
+    {
+        $this->crapArray = [];
     }
 
     /**
