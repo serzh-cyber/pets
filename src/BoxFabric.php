@@ -10,7 +10,7 @@ namespace App;
 
 class BoxFabric
 {
-    protected $color = ['Красная', 'Коричневая', 'Белая'];
+    static protected $color = ['Красная', 'Коричневая', 'Белая'];
 
     /**
      * Создание коробки
@@ -19,7 +19,6 @@ class BoxFabric
      */
     public static function create(int $count): object
     {
-        $t = new BoxFabric();
-        return new Box($count, $t->color[rand(0, count($t->color) - 1)]);
+        return new Box($count, self::$color[rand(0, count(self::$color) - 1)]);
     }
 }
