@@ -19,17 +19,6 @@ abstract class Placement
     abstract public function addPet(Animal $pet);
 
     /**
-     * Покормить добавленных животных
-     * @param $feed
-     */
-    abstract public function feedPets($feed): void;
-
-    /**
-     * Команда туалет для добавленных животных
-     */
-    abstract public function toiletPets(): void;
-
-    /**
      * Подсчет добавленных животных
      * @return array
      */
