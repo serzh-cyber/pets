@@ -92,7 +92,6 @@ abstract class Animal implements IAnimal
         $this->stomach[] = $portion;
     }
 
-
     /**
      * Проверка на сытость
      */

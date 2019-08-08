@@ -8,7 +8,6 @@
 
 namespace App\Interfacing;
 
-
 use App\Abstraction\Placement;
 
 interface IPlacementPresenter

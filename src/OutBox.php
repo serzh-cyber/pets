@@ -8,7 +8,6 @@
 
 namespace App;
 
-
 use App\Abstraction\Animal;
 use App\Abstraction\Placement;
 use App\Animal\Cat;
@@ -62,6 +61,7 @@ class OutBox extends Placement
 
         return $count;
     }
+
     /**
      * Подсчет щенят
      * @return int

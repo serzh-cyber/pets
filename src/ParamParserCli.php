@@ -20,10 +20,12 @@ class ParamParserCli implements IParamParser
         'kitty_count:',
         'box_square:'
     ];
+
     /**
      * @var array массив с переданными параметрами
      */
     protected $parameters = [];
+
     /**
      * @var int Заданное количество щенков
      */

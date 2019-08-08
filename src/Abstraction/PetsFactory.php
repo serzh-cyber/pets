@@ -8,7 +8,6 @@
 
 namespace App\Abstraction;
 
-
 abstract class PetsFactory
 {
     /**

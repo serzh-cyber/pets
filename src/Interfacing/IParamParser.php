@@ -8,7 +8,6 @@
 
 namespace App\Interfacing;
 
-
 interface IParamParser
 {
     /**

@@ -17,6 +17,7 @@ class Box extends Placement
 {
     /**
      * Максимально положенное количество экскрементов в коробке
+     * @var int
      */
     protected static $crapLimit = 0;
 
@@ -63,6 +64,7 @@ class Box extends Placement
             return false;
         }
     }
+
     /**
      * Если есть место в коробке добавляет в массив объект $animal
      * @param Animal $pet
@@ -108,6 +110,7 @@ class Box extends Placement
 
         return $count;
     }
+
     /**
      * Подсчет щенят
      * @return int

@@ -8,7 +8,6 @@
 
 namespace App\Animal;
 
-
 use App\Abstraction\PetsFactory;
 use App\Config;
 
