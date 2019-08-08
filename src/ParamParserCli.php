@@ -13,63 +13,86 @@ use App\Interfacing\IParamParser;
 class ParamParserCli implements IParamParser
 {
     /**
+     * @var array Наименования параметров
+     */
+    protected $parametersNames = [
+        'puppy_count:',
+        'kitty_count:',
+        'box_square:'
+    ];
+    /**
+     * @var array массив с переданными параметрами
+     */
+    protected $parameters = [];
+    /**
      * @var int Заданное количество щенков
      */
-    protected $puppyAmount  = 0;
+    protected $puppyCount;
 
     /**
      * @var int Заданное количество котят
      */
-    protected $kittyAmount  = 0;
+    protected $kittyCount;
 
     /**
      * @var int Заданная площадь коробки
      */
-    protected $boxSquare    = 0;
+    protected $boxSquare;
 
     /**
-     * Получить входные данные для CLI     *
+     * Получить входные данные для CLI
      */
     public function __construct()
     {
-        $longopts = [
-            "puppy_count:",
-            "kitty_count:",
-            "box_square:"
-        ];
-        $parameters             = getopt("", $longopts);
+        $this->parameters = getopt("", $this->parametersNames);
 
-        if (!isset($parameters['puppy_count'])) {
-            $this->puppyAmount  = 0;
-        } else {
-            $this->puppyAmount  = $parameters['puppy_count'];
+        foreach ($this->parametersNames as $name) {
+            $this->setParameter(mb_substr($name, 0, -1));
         }
-        if (!isset($parameters['kitty_count'])) {
-            $this->kittyAmount  = 0;
-        } else {
-            $this->kittyAmount  = $parameters['kitty_count'];
+    }
+
+    /**
+     * Присвоить свойству параметр
+     * @param $key
+     */
+    public function setParameter($key): void
+    {
+        $propertyName = $this->getPropertyName($key);
+
+        if (isset($this->parameters[$key]) && property_exists($this, $propertyName)) {
+            $this->$propertyName = $this->parameters[$key];
+        } elseif(property_exists($this, $propertyName)) {
+            $this->$propertyName = Config::get($propertyName);
         }
-        if (!isset($parameters['box_square'])) {
-            $this->boxSquare    = 10000;
-        } else {
-            $this->boxSquare    = $parameters['box_square'];
-        }
+    }
+
+    /**
+     * snake_case переписать в camelCase
+     * @param $string
+     * @return string
+     */
+    public function getPropertyName($string): string
+    {
+        $str    = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+        $str[0] = strtolower($str[0]);
+
+        return $str;
     }
 
     /**
      * @return int
      */
-    public function getPuppyAmount(): int
+    public function getPuppyCount(): int
     {
-        return $this->puppyAmount;
+        return $this->puppyCount;
     }
 
     /**
      * @return int
      */
-    public function getKittyAmount(): int
+    public function getKittyCount(): int
     {
-        return $this->kittyAmount;
+        return $this->kittyCount;
     }
 
     /**

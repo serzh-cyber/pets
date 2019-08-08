@@ -13,56 +13,81 @@ use App\Interfacing\IParamParser;
 class ParamParserHtml implements IParamParser
 {
     /**
+     * @var array Наименования параметров
+     */
+    protected $parametersNames = [
+        'puppy_count',
+        'kitty_count',
+        'box_square'
+    ];
+
+    /**
      * @var int Заданное количество щенков
      */
-    protected $puppyAmount  = 0;
+    protected $puppyCount;
 
     /**
      * @var int Заданное количество котят
      */
-    protected $kittyAmount  = 0;
+    protected $kittyCount;
 
     /**
      * @var int Заданная площадь коробки
      */
-    protected $boxSquare    = 0;
+    protected $boxSquare;
 
     /**
      * Получить входные данные для HTML
      */
     public function __construct()
     {
-        if (isset($_GET['puppy_count'])) {
-            $this->puppyAmount = $_GET['puppy_count'];
-        } else {
-            $this->puppyAmount = 0;
+        foreach ($this->parametersNames as $name) {
+            $this->setParameter($name);
         }
-        if (isset($_GET['kitty_count'])) {
-            $this->kittyAmount = $_GET['kitty_count'];
-        } else {
-            $this->kittyAmount = 0;
+    }
+
+    /**
+     * Присвоить свойству параметр
+     * @param $key
+     */
+    public function setParameter($key): void
+    {
+        $propertyName = $this->getPropertyName($key);
+
+        if (isset($_GET[$key]) && property_exists($this, $propertyName)) {
+            $this->$propertyName = $_GET[$key];
+        } elseif(property_exists($this, $propertyName)) {
+            $this->$propertyName = Config::get($propertyName);
         }
-        if (isset($_GET['box_square'])) {
-            $this->boxSquare = $_GET['box_square'];
-        } else {
-            $this->boxSquare = 10000;
-        }
+    }
+
+    /**
+     * snake_case переписать в camelCase
+     * @param $string
+     * @return string
+     */
+    public function getPropertyName($string): string
+    {
+        $str    = str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+        $str[0] = strtolower($str[0]);
+
+        return $str;
     }
 
     /**
      * @return int
      */
-    public function getPuppyAmount(): int
+    public function getPuppyCount(): int
     {
-        return $this->puppyAmount;
+        return $this->puppyCount;
     }
 
     /**
      * @return int
      */
-    public function getKittyAmount(): int
+    public function getKittyCount(): int
     {
-        return $this->kittyAmount;
+        return $this->kittyCount;
     }
 
     /**
