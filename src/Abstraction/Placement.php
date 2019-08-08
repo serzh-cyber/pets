@@ -20,13 +20,13 @@ abstract class Placement
 
     /**
      * Подсчет добавленных животных
-     * @return array
+     * @return int
      */
-    abstract public function countPets(): array;
+    abstract public function getPetsCount(): int;
 
     /**
      * Подсчет голодных и сытых добавленных животных
-     * @return array
+     * @return int
      */
-    abstract public function countHungry(): array;
+    abstract public function countHungry(): int;
 }
