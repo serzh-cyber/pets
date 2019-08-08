@@ -10,29 +10,10 @@ namespace App\Animal;
 
 
 use App\Abstraction\PetsFactory;
+use App\Config;
 
 class KittyFabric extends PetsFactory
 {
-    /**
-     * @var array имена для кошек
-     */
-    protected static $names    = ['Снежок', 'Мотроскин', 'Клин', 'Котэ', 'Котъ', 'Сеня', 'Джоджо', 'Ранджа'];
-
-    /**
-     * @var array пол кошек
-     */
-    protected static $gender   = ['male', 'female'];
-
-    /**
-     * @var array цвета шерсти кошек
-     */
-    protected static $color    = ['Зеленный', 'Алый', 'Сапфировый', 'Оранжевый', 'Черный', 'Белый'];
-
-    /**
-     * @var array породы кошек
-     */
-    protected static $breed    = ['Персидская', 'Мей-кун', 'Сиамская', 'Рэгдолл', 'Бенгальская', 'Абиссинская', 'Бирманская'];
-
     /**
      * Создание массива из объектов щенков
      * @param int $count
@@ -40,12 +21,60 @@ class KittyFabric extends PetsFactory
      */
     public static function create(int $count): array
     {
-        $cats   = [];
+        $cats = [];
 
         for($i=0; $i<$count; $i++) {
-            $cats[] = new Cat(self::$names[rand(0, count(self::$names)-1)], rand(1, 4), self::$gender[rand(0, 1)], self::$color[rand(0, count(self::$color)-1)], self::$breed[rand(0, count(self::$breed)-1)], rand(400, 850));
+            $cats[] = new Cat(self::getName(), self::getAge(), self::getGender(), self::getColor(), self::getBreed(), self::getSquare());
         }
 
         return $cats;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return Config::get('kittyNames')[array_rand(Config::get('kittyNames'))];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getGender(): string
+    {
+        return Config::get('gender')[array_rand(Config::get('gender'))];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getColor(): string
+    {
+        return Config::get('color')[array_rand(Config::get('color'))];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getBreed(): string
+    {
+        return Config::get('kittyBreeds')[array_rand(Config::get('kittyBreeds'))];
+    }
+
+    /**
+     * @return int
+     */
+    public static function getAge(): int
+    {
+        return Config::get('age');
+    }
+
+    /**
+     * @return int
+     */
+    public static function getSquare(): int
+    {
+        return Config::get('kittySquare');
     }
 }
