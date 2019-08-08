@@ -65,12 +65,12 @@ abstract class Animal implements IAnimal
      */
     public function __construct($name, $age, $gender, $color, $breed, $square)
     {
-        $this->name    = $name;
-        $this->age     = $age;
-        $this->gender  = $gender;
-        $this->color   = $color;
-        $this->breed   = $breed;
-        $this->square  = $square;
+        $this->name   = $name;
+        $this->age    = $age;
+        $this->gender = $gender;
+        $this->color  = $color;
+        $this->breed  = $breed;
+        $this->square = $square;
     }
 
     /**

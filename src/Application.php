@@ -23,15 +23,15 @@ class Application
      */
     public function run(IView $view, IParamParser $parameters)
     {
-        $dogs             = PuppyFabric::create($parameters->getPuppyCount());
-        $cats             = KittyFabric::create($parameters->getKittyCount());
-        $animals          = array_merge($dogs, $cats);
-        $box              = BoxFabric::create($parameters->getBoxSquare());
-        $outBox           = new OutBox();
-        $portions         = FoodFabric::create(count($animals));
-        $inserter         = new Inserter();
-        $boxPresenter     = new BoxPresenter($box);
-        $outBoxPresenter  = new OutBoxPresenter($outBox);
+        $dogs            = PuppyFabric::create($parameters->getPuppyCount());
+        $cats            = KittyFabric::create($parameters->getKittyCount());
+        $animals         = array_merge($dogs, $cats);
+        $box             = BoxFabric::create($parameters->getBoxSquare());
+        $outBox          = new OutBox();
+        $portions        = FoodFabric::create(count($animals));
+        $inserter        = new Inserter();
+        $boxPresenter    = new BoxPresenter($box);
+        $outBoxPresenter = new OutBoxPresenter($outBox);
 
         shuffle($animals);
 

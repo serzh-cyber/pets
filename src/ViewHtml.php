@@ -20,7 +20,7 @@ class ViewHtml implements IView
      */
     public function viewer(IPlacementPresenter $boxPresenter, IPlacementPresenter $outBoxPresenter): void
     {
-        echo '<head> <link href="/Assets/css/style.css" rel="stylesheet"> </head>'; // перенести это в отдельный класс все тэги
+        echo '<head><link href="/Assets/css/style.css" rel="stylesheet"></head>'; // перенести это в отдельный класс все тэги
         echo '<body>';
         echo '<table class="p-c"><tr>';
         echo '<td><p class="p-1">' . nl2br($boxPresenter->showAmountPets()) . '</p></td>'; // перенести это в отдельный класс все тэги

@@ -46,7 +46,7 @@ class Box extends Placement
      */
     public function __construct($square)
     {
-        $this->square = $square;
+        $this->square    = $square;
         self::$crapLimit = Config::get('crapLimit');
     }
 
@@ -57,7 +57,7 @@ class Box extends Placement
      */
     public function isPetFit(Animal $pet): bool
     {
-        if ($pet->getSquare()+$this->currentSpace < $this->square) {
+        if ($pet->getSquare() + $this->currentSpace < $this->square) {
             return true;
         } else {
             return false;
@@ -71,8 +71,8 @@ class Box extends Placement
     public function addPet(Animal $pet): bool
     {
         if  ($this->isPetFit($pet)) {
-            $this->allPets[]     = $pet;
-            $this->currentSpace  = $this->currentSpace + $pet->getSquare();
+            $this->allPets[]    = $pet;
+            $this->currentSpace = $this->currentSpace + $pet->getSquare();
 
             $pet->setIsInBox(true);
 
@@ -172,7 +172,7 @@ class Box extends Placement
     public function amountAddPuppy(): int
     {
         if ($this->canAddPuppy()) {
-            return floor(($this->square - $this->currentSpace)/1200);
+            return floor(($this->square - $this->currentSpace) / 1200);
         } else {
             return 0;
         }
