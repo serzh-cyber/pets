@@ -37,49 +37,79 @@ class OutBox extends Placement
     }
 
     /**
-     * Подсчет количества питомацев
-     * @return array
+     * Подсчет животных котят и щенят
+     * @return int
      */
-    public function countPets(): array
+    public function getPetsCount(): int
     {
-        $petsCounts['puppiesAmount']   = 0;
-        $petsCounts['kittiesAmount']   = 0;
-
-        foreach ($this->allPets as $pet) {
-            if (is_a($pet, Dog::class)) {
-                $petsCounts['puppiesAmount']++;
-            } elseif (is_a($pet, Cat::class)) {
-                $petsCounts['kittiesAmount']++;
-            }
-        }
-
-        return $petsCounts;
+        return count($this->allPets);
     }
 
     /**
-     * Подсчет голодных и сытых животных
-     * @return array
+     * Счетчик
+     * @param $class
+     * @return int
      */
-    public function countHungry():array
+    public function counter($class): int
     {
-        $petsCounts['countHungry']  = 0;
-        $petsCounts['countFed']     = 0;
+        $count = 0;
 
         foreach ($this->allPets as $pet) {
-            if ($pet->isHungry()) {
-                $petsCounts['countHungry']++;
-            } else {
-                $petsCounts['countFed']++;
+            if (is_a($pet, $class)) {
+                $count++;
             }
         }
 
-        return $petsCounts;
+        return $count;
+    }
+    /**
+     * Подсчет щенят
+     * @return int
+     */
+    public function getPuppyCount(): int
+    {
+        return $this->counter(Dog::class);
+    }
+
+    /**
+     * Подсчет котят
+     * @return int
+     */
+    public function getKittyCount(): int
+    {
+        return $this->counter(Cat::class);
+    }
+
+    /**
+     * Подсчет голодных животных
+     * @return int
+     */
+    public function countHungry(): int
+    {
+        $hungryCount = 0;
+
+        foreach ($this->allPets as $pet) {
+            if ($pet->isHungry()) {
+                $hungryCount++;
+            }
+        }
+
+        return $hungryCount;
+    }
+
+    /**
+     * Подсчет сытых животных
+     * @return int
+     */
+    public function countFed(): int
+    {
+        return $this->getPetsCount() - $this->countHungry();
     }
 
     /**
      * Туалет для животных вне коробки
      */
-    public function doToilet()
+    public function doToilet(): void
     {
         foreach ($this->allPets as $pet) {
             $this->crapArray = array_merge($this->crapArray, $pet->toilet());
@@ -87,20 +117,7 @@ class OutBox extends Placement
     }
 
     /**
-     * Проверка на необходимость уборки
-     * @return bool
-     */
-    public function clearRequired(): bool
-    {
-        if (count($this->crapArray) == count($this->allPets)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Очищение коробки от экскрементов
+     * Очищение место от экскрементов
      */
     public function clearCrap():void
     {
