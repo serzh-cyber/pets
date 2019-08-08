@@ -20,12 +20,12 @@ interface IParamParser
     /**
      * @return int Количество щенков
      */
-    public function getPuppyAmount(): int;
+    public function getPuppyCount(): int;
 
     /**
      * @return int Количество кошек
      */
-    public function getKittyAmount(): int;
+    public function getKittyCount(): int;
 
     /**
      * @return int Площадь коробки
