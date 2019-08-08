@@ -20,11 +20,16 @@ class ViewHtml implements IView
      */
     public function viewer(IPlacementPresenter $boxPresenter, IPlacementPresenter $outBoxPresenter): void
     {
-        echo nl2br($boxPresenter->showAmountPets());
-        echo nl2br($boxPresenter->showAdditionalPets());
-        echo nl2br($boxPresenter->showAmountHungry());
-        echo nl2br($boxPresenter->showClearRequired());
-        echo nl2br($outBoxPresenter->showAmountPets());
-        echo nl2br($outBoxPresenter->showAmountHungry());
+        echo '<head> <link href="/Assets/css/style.css" rel="stylesheet"> </head>'; // перенести это в отдельный класс все тэги
+        echo '<body>';
+        echo '<table class="p-c"><tr>';
+        echo '<td><p class="p-1">' . nl2br($boxPresenter->showAmountPets()) . '</p></td>'; // перенести это в отдельный класс все тэги
+        echo '<td><p class="p-1">' . nl2br($boxPresenter->showAdditionalPets()) . '</p></td>';
+        echo '<td><p class="p-1">' . nl2br($boxPresenter->showAmountHungry()) . '</p></td></tr></table>';
+        echo '<table class="p-c"><tr><td>' . '<p class="p-1_1">' . nl2br($boxPresenter->showClearRequired()) . '</p></td></tr></table>';
+        echo '<table class="p-c"><tr><td><p class="p-2">' . nl2br($outBoxPresenter->showAmountPets()) . '</p></td>';
+        echo '<td><p class="p-2">' . nl2br($outBoxPresenter->showAmountHungry()) . '</p></td>';
+        echo '</tr></table>';
+        echo '</body>';
     }
 }
