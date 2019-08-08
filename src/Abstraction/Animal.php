@@ -50,8 +50,7 @@ abstract class Animal implements IAnimal
     protected $stomach = [];
 
     /**
-     * Статус в коробке - 1, не в коробке - 0
-     * @var int
+     * @var bool Находится ли животное в коробке
      */
     protected $isInBox = false;
 
@@ -66,12 +65,12 @@ abstract class Animal implements IAnimal
      */
     public function __construct($name, $age, $gender, $color, $breed, $square)
     {
-        $this->name         = $name;
-        $this->age          = $age;
-        $this->gender       = $gender;
-        $this->color        = $color;
-        $this->breed        = $breed;
-        $this->square       = $square;
+        $this->name    = $name;
+        $this->age     = $age;
+        $this->gender  = $gender;
+        $this->color   = $color;
+        $this->breed   = $breed;
+        $this->square  = $square;
     }
 
     /**
@@ -113,11 +112,13 @@ abstract class Animal implements IAnimal
     public function toilet(): array
     {
         $petCrap = [];
+
         if (!$this->isHungry()) {
             while ($this->stomach) {
                 $petCrap[] = new Crap(array_pop($this->stomach)->getAmount());
             }
         }
+
         return $petCrap;
     }
 
