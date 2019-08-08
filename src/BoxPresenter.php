@@ -16,7 +16,7 @@ class BoxPresenter implements IPlacementPresenter
     /**
      * @var null объект класса Place
      */
-    protected $box    = null;
+    protected $box = null;
 
     /**
      * BoxPresenter constructor.
@@ -24,7 +24,7 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function __construct(Placement $box)
     {
-        $this->box    = $box;
+        $this->box = $box;
     }
 
     /**
@@ -33,7 +33,7 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function showAmountPets(): string
     {
-        return 'Внутри коробки ' . ($this->box->countPets()['puppiesAmount']+$this->box->countPets()['kittiesAmount']) . ' животных.' . "\n" . 'Собак: ' . $this->box->countPets()['puppiesAmount'] . ', Кошек: ' . $this->box->countPets()['kittiesAmount'] . "\n";
+        return 'Внутри коробки ' . $this->box->getPetsCount() . ' животных.' . "\n" . 'Собак: ' . $this->box->getPuppyCount() . ', Кошек: ' . $this->box->getKittyCount() . "\n";
     }
 
     /**
@@ -42,7 +42,7 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function showAmountHungry(): string
     {
-        return 'Внутри коробки голодных питомцев - ' . $this->box->countHungry()['countHungry'] . ', а сытых питомцев - ' . $this->box->countHungry()['countFed'] . "\n";
+        return 'Внутри коробки голодных питомцев - ' . $this->box->countHungry() . ', а сытых питомцев - ' . $this->box->countFed() . "\n";
     }
 
     /**
@@ -51,7 +51,7 @@ class BoxPresenter implements IPlacementPresenter
      */
     public function showAdditionalPets(): string
     {
-        return 'В корбку могут поместиться: ' . $this->box->isSpaceFree()['additionalPuppies'] . ' - собаки, или ' . $this->box->isSpaceFree()['additionalKitties'] . ' - кошки.' . "\n";
+        return 'В корбку могут поместиться: ' . $this->box->amountAddPuppy() . ' - собаки, или ' . $this->box->amountAddKitty() . ' - кошки.' . "\n";
     }
 
     /**
