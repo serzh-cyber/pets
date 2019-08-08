@@ -17,7 +17,7 @@ class OutBoxPresenter implements IPlacementPresenter
     /**
      * @var null объект класса Place
      */
-    protected $outBox    = null;
+    protected $outBox = null;
 
     /**
      * BoxPresenter constructor.
@@ -25,7 +25,7 @@ class OutBoxPresenter implements IPlacementPresenter
      */
     public function __construct(Placement $outBox)
     {
-        $this->outBox    = $outBox;
+        $this->outBox = $outBox;
     }
 
     /**
@@ -34,7 +34,7 @@ class OutBoxPresenter implements IPlacementPresenter
      */
     public function showAmountPets():string
     {
-        return 'Снаружи коробки ' . ($this->outBox->countPets()['puppiesAmount']+$this->outBox->countPets()['kittiesAmount']) . ' животных.' . "\n" . 'Собак: ' . $this->outBox->countPets()['puppiesAmount'] . ', Кошек: ' . $this->outBox->countPets()['kittiesAmount'] . "\n";
+        return 'Снаружи коробки ' . $this->outBox->getPetsCount() . ' животных.' . "\n" . 'Собак: ' . $this->outBox->getPuppyCount() . ', Кошек: ' . $this->outBox->getKittyCount() . "\n";
     }
 
     /**
@@ -43,6 +43,6 @@ class OutBoxPresenter implements IPlacementPresenter
      */
     public function showAmountHungry(): string
     {
-        return 'Снаружи коробки голодных питомцев - ' . $this->outBox->countHungry()['countHungry'] . ', а сытых питомцев - ' . $this->outBox->countHungry()['countFed'] . "\n";
+        return 'Снаружи коробки голодных питомцев - ' . $this->outBox->countHungry() . ', а сытых питомцев - ' . $this->outBox->countFed() . "\n";
     }
 }
