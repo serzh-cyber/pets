@@ -16,7 +16,7 @@ class Inserter
      * @param Box $box
      * @param OutBox $outBox
      */
-    public function insert(array $pets, Box $box, OutBox $outBox)
+    public function insert(array $pets, Box $box, OutBox $outBox): void
     {
         foreach ($pets as $pet) {
             if (!$box->addPet($pet)) {
