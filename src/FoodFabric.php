@@ -11,12 +11,17 @@ namespace App;
 
 class FoodFabric
 {
+    /**
+     * Создание массива объектов Portion порции корма
+     * @param $count
+     * @return array
+     */
     public static function create($count): array
     {
         $portions = [];
 
         for ($i=0; $i<$count; $i++) {
-            $portions[] = new Portion(150);
+            $portions[] = new Portion(Config::get('foodAmount'));
         }
 
         return $portions;

@@ -10,6 +10,9 @@ namespace App;
 
 class Portion
 {
+    /**
+     * @var int Масса еды в порции
+     */
     protected $amount = 0;
 
     /**
