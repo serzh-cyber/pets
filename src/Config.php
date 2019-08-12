@@ -4,27 +4,34 @@ namespace App;
 
 class Config
 {
-    private static $instance = null;
-    private $config = [];
+    /**
+     * @var array|mixed массив с конфигурациями
+     */
+    private static $config = null;
 
-    private function __construct()
+    /**
+     * Получение данных из configurations.php
+     * @return Config|null
+     */
+    public static function getConfig()
     {
-        $this->config = include_once (ROOT  . '/configurations.php');
-    }
-
-    public static function getInstance()
-    {
-        if (self::$instance === null) {
-            self::$instance = new Config();
+        if (self::$config === null) {
+            self::$config = include_once (ROOT  . '/configurations.php');
         }
 
-        return self::$instance;
+        return self::$config;
     }
 
-    public function getConfig($key)
+    /**
+     * Получение конфигурации по ключу
+     * @param $key
+     * @return mixed|null
+     */
+    public static function get($key)
     {
-        if (isset($this->config[$key])) {
-            return $this->config[$key];
+        self::getConfig();
+        if (isset(self::$config[$key])) {
+            return self::$config[$key];
         } else {
             return null;
         }

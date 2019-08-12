@@ -20,7 +20,7 @@ class FoodFabric
         $portions = [];
 
         for ($i=0; $i<$count; $i++) {
-            $portions[] = new Portion(Config::getInstance()->getConfig('foodAmount'));
+            $portions[] = new Portion(Config::get('foodAmount'));
         }
 
         return $portions;

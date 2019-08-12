@@ -19,7 +19,6 @@ class Application
      * Выполнение логики
      * @param IView $view
      * @param IParamParser $parameters
-     * @return mixed
      */
     public function run(IView $view, IParamParser $parameters)
     {

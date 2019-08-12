@@ -34,7 +34,7 @@ class KittyFabric extends PetsFactory
      */
     public static function getName(): string
     {
-        return Config::getInstance()->getConfig('kittyNames')[array_rand(Config::getInstance()->getConfig('kittyNames'))];
+        return Config::get('kittyNames')[array_rand(Config::get('kittyNames'))];
     }
 
     /**
@@ -42,7 +42,7 @@ class KittyFabric extends PetsFactory
      */
     public static function getGender(): string
     {
-        return Config::getInstance()->getConfig('gender')[array_rand(Config::getInstance()->getConfig('gender'))];
+        return Config::get('gender')[array_rand(Config::get('gender'))];
     }
 
     /**
@@ -50,7 +50,7 @@ class KittyFabric extends PetsFactory
      */
     public static function getColor(): string
     {
-        return Config::getInstance()->getConfig('color')[array_rand(Config::getInstance()->getConfig('color'))];
+        return Config::get('color')[array_rand(Config::get('color'))];
     }
 
     /**
@@ -58,7 +58,7 @@ class KittyFabric extends PetsFactory
      */
     public static function getBreed(): string
     {
-        return Config::getInstance()->getConfig('kittyBreeds')[array_rand(Config::getInstance()->getConfig('kittyBreeds'))];
+        return Config::get('kittyBreeds')[array_rand(Config::get('kittyBreeds'))];
     }
 
     /**
@@ -66,7 +66,7 @@ class KittyFabric extends PetsFactory
      */
     public static function getAge(): int
     {
-        return Config::getInstance()->getConfig('age');
+        return Config::get('age');
     }
 
     /**
@@ -74,6 +74,6 @@ class KittyFabric extends PetsFactory
      */
     public static function getSquare(): int
     {
-        return Config::getInstance()->getConfig('kittySquare');
+        return Config::get('kittySquare');
     }
 }

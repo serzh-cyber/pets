@@ -48,7 +48,7 @@ class Box extends Placement
     public function __construct($square)
     {
         $this->square    = $square;
-        self::$crapLimit = Config::getInstance()->getConfig('crapLimit');
+        self::$crapLimit = Config::get('crapLimit');
     }
 
     /**

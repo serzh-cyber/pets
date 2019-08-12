@@ -57,7 +57,7 @@ class ParamParserHtml implements IParamParser
         if (isset($_GET[$key]) && property_exists($this, $propertyName)) {
             $this->$propertyName = $_GET[$key];
         } elseif(property_exists($this, $propertyName)) {
-            $this->$propertyName = Config::getInstance()->getConfig($propertyName);
+            $this->$propertyName = Config::get($propertyName);
         }
     }
 
