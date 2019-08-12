@@ -48,7 +48,7 @@ class Box extends Placement
     public function __construct($square)
     {
         $this->square    = $square;
-        self::$crapLimit = Config::get('crapLimit');
+        self::$crapLimit = Config::getInstance()->getConfig('crapLimit');
     }
 
     /**
@@ -175,7 +175,7 @@ class Box extends Placement
     public function amountAddPuppy(): int
     {
         if ($this->canAddPuppy()) {
-            return floor(($this->square - $this->currentSpace) / 1200);
+            return floor(($this->square - $this->currentSpace)/1200);
         } else {
             return 0;
         }

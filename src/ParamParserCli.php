@@ -64,7 +64,7 @@ class ParamParserCli implements IParamParser
         if (isset($this->parameters[$key]) && property_exists($this, $propertyName)) {
             $this->$propertyName = $this->parameters[$key];
         } elseif(property_exists($this, $propertyName)) {
-            $this->$propertyName = Config::get($propertyName);
+            $this->$propertyName = Config::getInstance()->getConfig($propertyName);
         }
     }
 
